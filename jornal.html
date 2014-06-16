@@ -1,0 +1,279 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0014)about:internet -->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"> 
+    <head>
+        <title></title>
+        <meta name="google" value="notranslate" />         
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+        <style type="text/css" media="screen">
+            html, body  { height:100%; }
+            body { margin:0; padding:0; overflow:auto; text-align:center; 
+                   background-color: #ffffff; }   
+            object:focus { outline:none; }
+            #flashContent { display:none; }
+
+            [class^="icon-"],
+            [class*=" icon-"]{
+                display: inline-block;
+                margin-top: 1px;
+                *margin-right: .3em;
+                line-height: 14px;
+                vertical-align: text-top;
+                background-position: 0 0;
+                background-repeat: no-repeat;
+                margin-left: 5px;
+            }
+
+            .icon-back{
+                background-image: url('./img/back_normal.png');
+                width: 70px;
+                height: 70px;
+            }
+
+            .icon-back:hover{
+                background-image: url('./img/back_hover.png');
+            }
+
+            .icon-back:active{
+                background-image: url('./img/back_active.png');
+            }
+
+            .icon-forward{
+                background-image: url('./img/forward_normal.png');
+                width: 70px;
+                height: 70px;
+            }
+
+            .icon-forward:hover{
+                background-image: url('./img/forward_hover.png');
+            }
+
+            .icon-forward:active{
+                background-image: url('./img/forward_active.png');
+            }
+
+            .icon-zoomin{
+                background-image: url('./img/zoomin_normal.png');
+                width: 70px;
+                height: 73px;
+            }
+
+            .icon-zoomin:hover{
+                background-image: url('./img/zoomin_hover.png');
+            }
+
+            .icon-zoomin:active{
+                background-image: url('./img/zoomin_active.png');
+            }
+
+            .icon-zoomout{
+                background-image: url('./img/zoomout_normal.png');
+                width: 70px;
+                height: 73px;
+            }
+
+            .icon-zoomout:hover{
+                background-image: url('./img/zoomout_hover.png');
+            }
+
+            .icon-zoomout:active{
+                background-image: url('./img/zoomout_active.png');
+            }
+
+            .bBack{
+                position: fixed;
+                z-index: 200;
+                bottom: 10px;
+                left: 10px;
+                cursor: pointer;
+            }
+
+            .bForward{
+                position: fixed;
+                z-index: 210;
+                bottom: 10px;
+                left: 65px;
+                cursor: pointer;
+            }
+
+            .bZoomOut{
+                position: fixed;
+                z-index: 210;
+                bottom: 10px;
+                right: 10px;
+                cursor: pointer;
+            }
+
+            .bZoomIn{
+                position: fixed;
+                z-index: 210;
+                bottom: 10px;
+                right: 80px;
+                cursor: pointer;
+            }
+        </style>
+        
+
+        <script type="text/javascript" src="swfobject.js"></script>
+        <script type="text/javascript">
+            var jornals = [
+                'dfd904ea1318447c8327c482837bc86b',
+                'd6384985bf268fb58d72ee1d4652411d',
+                '37f456ec2a8ff56fc480051080c56b64',
+                'c0f4314cbfba90143fd24d89ffb4285d',
+                '210baccb562d2555ecd00d7cf2214aa1'
+            ]
+
+            // For version detection, set to min. required Flash Player version, or 0 (or 0.0.0), for no version detection. 
+            var swfVersionStr = "10.2.0";
+            // To use express install, set to playerProductInstall.swf, otherwise the empty string. 
+            var xiSwfUrlStr = "playerProductInstall.swf";
+            var flashvars = {jornal:"dfd904ea1318447c8327c482837bc86b"};
+            var params = {};
+            params.quality = "high";
+            params.bgcolor = "#ffffff";
+            params.allowscriptaccess = "sameDomain";
+            params.allowfullscreen = "true";
+            params.wmode = "opaque";
+            var attributes = {};
+            attributes.id = "jreader";
+            attributes.name = "jreader";
+            attributes.align = "middle";
+
+
+            var jr;
+            var jTotalPajes = 0;
+
+            function ready(){
+                var hash = window.location.hash;
+                if (hash.length > 0){
+                    hash = hash.slice(1);
+                    flashvars.jornal = hash;
+
+                    swfobject.embedSWF(
+                            "jreader.swf", "flashContent",
+                            "100%", "100%",
+                            swfVersionStr, xiSwfUrlStr,
+                            flashvars, params, attributes);
+
+                    swfobject.createCSS("#flashContent", "display:block;text-align:left;z-index:1");
+                }
+            }
+
+
+            function flashReady(){
+                jr = swfobject.getObjectById(attributes.id);
+                jTotalPajes = jr.getTotalPages();
+            }
+
+            function goBack(){
+                if (jr){
+                    jr.pageBack();
+                } else {
+                    jr = swfobject.getObjectById(attributes.id);
+                    jTotalPajes = jr.getTotalPages();
+                    jr.pageBack();
+                }
+            }
+
+            function goForvard(){
+                if (jr){
+                    jr.pageForward();
+                } else {
+                    jr = swfobject.getObjectById(attributes.id);
+                    jTotalPajes = jr.getTotalPages();
+                    jr.pageForward();
+                }
+
+            }
+
+            function goZoomIn(){
+                if (jr){
+                    jr.zoomIn();
+                } else {
+                    jr = swfobject.getObjectById(attributes.id);
+                    jTotalPajes = jr.getTotalPages();
+                    jr.zoomIn();
+                }
+
+            }
+
+            function goZoomOut(){
+                if (jr){
+                    jr.zoomOut();
+                } else {
+                    jr = swfobject.getObjectById(attributes.id);
+                    jTotalPajes = jr.getTotalPages();
+                    jr.zoomOut();
+                }
+
+            }
+
+            function goTo(id){
+                if (jr){
+                    jr.goTo(id);
+                } else {
+                    jr = swfobject.getObjectById(attributes.id);
+                    jTotalPajes = jr.getTotalPages();
+                    jr.goTo(id);
+                }
+            }
+
+            function pageChanged(id){
+                //console.log(id);
+            }
+
+
+        </script>
+    </head>
+    <body onload="ready()">
+            <div id="flashContent">
+                <p>
+                    To view this page ensure that Adobe Flash Player version
+                    10.2.0 or greater is installed.
+                </p>
+                <script type="text/javascript">
+                    var pageHost = ((document.location.protocol == "https:") ? "https://" : "http://");
+                    document.write("<a href='http://www.adobe.com/go/getflashplayer'><img src='"
+                                    + pageHost + "www.adobe.com/images/shared/download_buttons/get_flash_player.gif' alt='Get Adobe Flash player' /></a>" );
+                </script>
+            </div>
+
+            <noscript>
+                <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="100%" height="100%" id="jreader">
+                    <param name="movie" value="jreader.swf" />
+                    <param name="quality" value="high" />
+                    <param name="bgcolor" value="#ffffff" />
+                    <param name="allowScriptAccess" value="sameDomain" />
+                    <param name="allowFullScreen" value="true" />
+                    <!--[if !IE]>-->
+                    <object type="application/x-shockwave-flash" data="jreader.swf" width="100%" height="100%">
+                        <param name="quality" value="high" />
+                        <param name="bgcolor" value="#ffffff" />
+                        <param name="allowScriptAccess" value="sameDomain" />
+                        <param name="allowFullScreen" value="true" />
+                    <!--<![endif]-->
+                    <!--[if gte IE 6]>-->
+                        <p>
+                            Either scripts and active content are not permitted to run or Adobe Flash Player version
+                            10.2.0 or greater is not installed.
+                        </p>
+                    <!--<![endif]-->
+                        <a href="http://www.adobe.com/go/getflashplayer">
+                            <img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash Player" />
+                        </a>
+                    <!--[if !IE]>-->
+                    </object>
+                    <!--<![endif]-->
+                </object>
+            </noscript>
+            <div class="icon-back bBack" onclick="goBack();"></div>
+            <div class="icon-forward bForward" onclick="goForvard();"></div>
+            <div class="icon-zoomin bZoomIn" onclick="goZoomOut()"></div>
+            <div class="icon-zoomout bZoomOut" onclick="goZoomIn()"></div>
+
+   </body>
+</html>
+
+
