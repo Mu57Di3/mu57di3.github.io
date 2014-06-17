@@ -112,11 +112,63 @@
                 right: 80px;
                 cursor: pointer;
             }
+            
+            
+            .contentsWrapper{
+                display: block;
+                position: absolute;
+                z-index: 1000;
+                width: 600px;
+                background: #339999;
+                top:80px;
+                left: 50%;
+                margin-left: -300px;
+                opacity: 0.9;
+                padding: 20px;
+                text-align: left;
+            }
+
+            .contentsWrapper ul{
+                color: #222;
+
+            }
+
+            .contentsWrapper ul li a{
+                cursor: pointer;
+            }
+
+            .contentsWrapper .close{
+                position: absolute;
+                font-size: 35px;
+                color: #000000;
+                font-weight: bold;
+                top: -12px;
+                right: -25px;
+                cursor: pointer;
+            }
+
+            .icon-close{
+                position: absolute;
+                top: 0;
+                left: 30px;
+                padding: 10px;
+                background: #339999;
+                color: #222222;
+                cursor: pointer;
+                opacity: 0.95;
+            }
+
+            .icon-close:hover{
+                background: #99CCCC;
+            }
+
         </style>
         
 
         <script type="text/javascript" src="swfobject.js"></script>
         <script type="text/javascript">
+
+            var contents = [];
             var jornals = [
                 'dfd904ea1318447c8327c482837bc86b',
                 'd6384985bf268fb58d72ee1d4652411d',
@@ -145,12 +197,21 @@
             var jr;
             var jTotalPajes = 0;
 
-            function ready(){
+            $(document).ready(function(){
                 var hash = window.location.hash;
                 if (hash.length > 0){
                     hash = hash.slice(1);
                     flashvars.jornal = hash;
+                    $.get('./jornals.json',function(input){
+                        contents = input[hash].cont;
+                        initSWF();
+                        buildContents();
+                    },'json');
+                }
+            });
 
+
+            function initSWF(){
                     swfobject.embedSWF(
                             "jreader.swf", "flashContent",
                             "100%", "100%",
@@ -158,8 +219,19 @@
                             flashvars, params, attributes);
 
                     swfobject.createCSS("#flashContent", "display:block;text-align:left;z-index:1");
-                }
             }
+
+
+            function buildContents(){
+                console.dir(contents);
+                var list = $('<ul></ul>');
+                for(var i= 0, cnt=contents.length;i<cnt;i++){
+                    var li = $('<li><a onclick="goTo('+contents[i][0]+')">'+contents[i][1]+'</a></li>');
+                    list.append(li);
+                }
+                $('.contentsWrapper').append(list);
+            }
+
 
 
             function flashReady(){
@@ -211,6 +283,7 @@
             }
 
             function goTo(id){
+                $('.contentsWrapper').hide();
                 if (jr){
                     jr.goTo(id);
                 } else {
@@ -227,7 +300,7 @@
 
         </script>
     </head>
-    <body onload="ready()">
+    <body>
             <div id="flashContent">
                 <p>
                     To view this page ensure that Adobe Flash Player version
@@ -272,7 +345,10 @@
             <div class="icon-forward bForward" onclick="goForvard();"></div>
             <div class="icon-zoomin bZoomIn" onclick="goZoomOut()"></div>
             <div class="icon-zoomout bZoomOut" onclick="goZoomIn()"></div>
-
+            <div class="icon-close" onclick="$('.contentsWrapper').show();">Содержание</div>
+            <div class="contentsWrapper" style="display: none;">
+                <div class="close" onclick="$('.contentsWrapper').hide();">&times;</div>
+            </div>
    </body>
 </html>
 
